@@ -2,10 +2,12 @@ import {API_TOKEN} from '../helper/token.js'
 
 
 
-export function getFilmsFromApiWithSearchText(text) {
-  const url = 'https://api.themoviedb.org/3/search/movie?api_key='+ API_TOKEN +'&language=en-US&page=1&include_adult=false&query=' + text
+export function getFilmsFromApiWithSearchText(text, page) {
+  const url = 'https://api.themoviedb.org/3/search/movie?api_key='+ API_TOKEN +'&language=en-US&page=1&include_adult=false&query=' + text + "&page=" + page
   return fetch(url)
-    .then((response) => response.json())
+    .then((response) => {
+      return response.json()
+    })
     .catch((error) => console.log(error))
 }
 

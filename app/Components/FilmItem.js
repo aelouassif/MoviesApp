@@ -4,7 +4,7 @@ import {getImageFromApi} from '../services/TMDBApi'
 
 class FilmItem extends React.Component {
   render() {
-    const film = this.props.film.item
+    const film = this.props.film
 
     return (
       <View style={styles.main_container}>
