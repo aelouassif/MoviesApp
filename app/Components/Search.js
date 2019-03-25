@@ -1,31 +1,49 @@
 import React, { Component} from 'react'
-import { Platform, StyleSheet, TextInput, Button, Text, View, FlatList} from 'react-native';
+import { Platform, StyleSheet, TextInput, Button, Text, View, FlatList, ActivityIndicator} from 'react-native';
 import { getFilmsFromApiWithSearchText} from '../services/TMDBApi'
 import FilmItem from './FilmItem'
 type Props = {};
 class Search extends Component<Props> {
   constructor(props) {
     super(props)
-    this.state = { films: [] }
+    this.searchedText = ""
+    this.state = {
+      films: [],
+      isLoading: false,
+    }
   }
   _loadFilms() {
-    getFilmsFromApiWithSearchText("test").then((data) => {
-      this.setState({films : data.results})
-      console.log('-------------------+++++++++++++++++------------------')
-      console.log(data.results)
+    this.setState({isLoading : true})
+    getFilmsFromApiWithSearchText(this.searchedText).then((data) => {
+      this.setState({
+        films : data.results,
+        isLoading : false,
+      })
     })
+  }
+  _searchTextInputChanged(text) {
+    this.searchedText = text
+  }
+  _displayLoading() {
+    if(this.state.isLoading) {
+      return (
+        <View style={styles.loading_container}>
+          <ActivityIndicator size="large" color="#0000ff"/>
+        </View>
+      )
+    }
   }
   render() {
     return (
       <View style={styles.main_container}>
-        <TextInput style={styles.text_input} placeholder='Title of movie'/>
+        <TextInput style={styles.text_input} placeholder='Title of movie' onChangeText={(text) => this._searchTextInputChanged(text)} onSubmitEditing={() => this._loadFilms()}/>
         <Button title='search' onPress={() => this._loadFilms()}/>
-        <FilmItem/>
         <FlatList
           data={this.state.films}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={(item) => <FilmItem/>}
+          renderItem={(item) => <FilmItem film={item}/>}
         />
+        {this._displayLoading()}
       </View>
     )
   }
@@ -44,5 +62,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingLeft: 5,
   },
+  loading_container: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 100,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 })
 export default Search
