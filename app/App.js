@@ -10,13 +10,14 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import FilmItem from './Components/FilmItem'
 import Search from './Components/Search'
+import Navigation from './Navigation/Navigation'
 
 
 type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
-      <Search/>
+      <Navigation/>
     );
   }
 }

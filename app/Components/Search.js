@@ -58,7 +58,6 @@ class Search extends Component<Props> {
           renderItem={({item}) => <FilmItem film={item}/>}
           onEndReachedThreshold={0.5}
           onEndReached={()=> {
-
             if(this.page < this.totalPages) {
               this._loadFilms()
             }
@@ -73,7 +72,6 @@ class Search extends Component<Props> {
 const styles = StyleSheet.create({
   main_container: {
     flex:1,
-    marginTop: 20,
   },
   text_input: {
     marginLeft: 5,
