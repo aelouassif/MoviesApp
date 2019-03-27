@@ -47,7 +47,13 @@ class Search extends Component<Props> {
       films: [],
     }, () => {this._loadFilms()})
   }
+
+  _displayDetailForFilm = (idFilm) => {
+    console.log('idFilm', idFilm)
+    this.props.navigation.navigate("FilmDetail", {idFilm: idFilm})
+  }
   render() {
+    console.log('props search : ', this.props)
     return (
       <View style={styles.main_container}>
         <TextInput style={styles.text_input} placeholder='Title of movie' onChangeText={(text) => this._searchTextInputChanged(text)} onSubmitEditing={() => this._searchFilms()}/>
@@ -55,7 +61,7 @@ class Search extends Component<Props> {
         <FlatList
           data={this.state.films}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({item}) => <FilmItem film={item}/>}
+          renderItem={({item}) => <FilmItem film={item} displayDetailForFilm={this._displayDetailForFilm}/>}
           onEndReachedThreshold={0.5}
           onEndReached={()=> {
             if(this.page < this.totalPages) {
