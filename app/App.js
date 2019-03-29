@@ -11,13 +11,16 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 import FilmItem from './Components/FilmItem'
 import Search from './Components/Search'
 import Navigation from './Navigation/Navigation'
-
+import { Provider } from 'react-redux'
+import Store from './redux/store/configureStore'
 
 type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
-      <Navigation/>
+      <Provider store={Store}>
+        <Navigation/>
+      </Provider>
     );
   }
 }
